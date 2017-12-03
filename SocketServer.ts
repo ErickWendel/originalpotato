@@ -44,7 +44,7 @@ function sort(io) {
     sortedKey = <string>Object.keys(clients)[sortNumber];
     sortedClients = {};
     responseClients = [];
-    seconds--;
+    // seconds--;
   }
 
   const sortedClient = clients[sortedKey];

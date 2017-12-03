@@ -15,21 +15,6 @@ window.onload = function() {
     press();
   });
 
-  btnplay.addEventListener('click', function() {
-    playAudio();
-  });
-
-  var simulateClick = function(elem) {
-    // Create our event (with options)
-    var evt = new MouseEvent('click', {
-      bubbles: true,
-      cancelable: true,
-      view: window,
-    });
-    // If cancelled, don't dispatch our event
-    var canceled = !elem.dispatchEvent(evt);
-  };
-
   function timerSkin() {
     //skin.style.height = heightSkin + 'px';
     if (heightSkin === 0) {
@@ -113,8 +98,6 @@ window.onload = function() {
     });
     register();
   });
-
-  //playAudio();
 };
 
 function changeBg() {
@@ -131,11 +114,15 @@ function changeBg() {
   }, 1000);
 }
 
+var url = '../audio/gemidao2.mp3';
+createjs.Sound.registerSound(url, 'omg');
+
 function playAudio() {
   // var audio = new Audio('../audio/gemidao.mp3');
   // audio.play();
-  createjs.Sound.registerSound('../audio/gemidao2.mp3', 'x');
-  audioContext = createjs.Sound.play('x');
+  // if (location.href.indexOf('localhost') !== -1) url = '../audio/gemidao2.mp3';
+
+  createjs.Sound.play('omg');
   let body = document.querySelector('body');
   body.classList.add('fail');
 }

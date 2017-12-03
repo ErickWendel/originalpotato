@@ -43,10 +43,10 @@ window.onload = function() {
   function register() {
     socket.on(myId, function(data) {
       botaoAtivo = true;
-      // timeout = setTimeout(() => {
-      //   if (!botaoAtivo) return;
-      //   fail();
-      // }, 3000);
+      timeout = setTimeout(() => {
+        if (!botaoAtivo) return;
+        press();
+      }, 3000);
 
       if (data === 'HASFAIL' || data === 'ENDGAME') {
         if (gemidaoativo) return;

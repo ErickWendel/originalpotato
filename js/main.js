@@ -71,16 +71,16 @@ window.onload = function() {
     'Sua mae chora no banho',
   ];
 
-  let i = 0;
-  setInterval(function() {
-    label.innerHTML = labels[i];
-    i = i + 1;
-    if (i == labels.length) {
-      i = 0;
-    }
-  }, 1000);
+  // let i = 0;
+  // setInterval(function() {
+  //   label.innerHTML = labels[i];
+  //   i = i + 1;
+  //   if (i == labels.length) {
+  //     i = 0;
+  //   }
+  // }, 1000);
 
-  changeBg();
+  // changeBg();
   var url = 'http://localhost:3000/';
   if (location.href.indexOf(url) !== -1) socket = io.connect(url);
   else socket = io.connect('https://originalpotato.herokuapp.com/');
@@ -101,6 +101,7 @@ window.onload = function() {
     myId = data + new Date().getTime();
     socket.emit('add-user', {
       username: myId,
+      sendDate: new Date(),
     });
     register();
   });

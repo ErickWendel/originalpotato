@@ -7,7 +7,13 @@ import * as Express from 'express';
 const app = Express();
 const server = http.createServer(app);
 app.use(Express.static(Path.join(__dirname, '/')));
-const io = SocketIo(server);
+const io = SocketIo(server, {
+  serveClient: false,
+  // below are engine.IO options
+  pingInterval: 10000,
+  pingTimeout: 5000,
+  cookie: false,
+});
 const port = process.env.PORT || 3000;
 server.listen(port, () => console.log('server running'));
 
@@ -100,13 +106,12 @@ io.sockets.on('connection', socket => {
     sort(io);
   });
   socket.on('userloser', data => {
-    const username = data.username;    
+    const username = data.username;
     const sortedUser = clients[username];
     const socketClient = io.sockets.connected[sortedUser.socket];
     io.emit('user-loser', username);
     socketClient.emit(username, 'HASFAIL');
-
-  })
+  });
   socket.on('press', data => {
     const username = data.username;
     console.log('ONPRESS:', data.username);
@@ -118,7 +123,7 @@ io.sockets.on('connection', socket => {
     const socketClient = io.sockets.connected[sortedUser.socket];
     if (expirationDateSystem < new Date()) {
       socketClient.emit(username, 'ENDGAME');
-      io.emit('user-loser', username);
+      // io.emit('user-loser', username);
       console.log('ENDGAME', username);
       return;
     }

@@ -24,7 +24,7 @@ server.listen(port, () => console.log('server running'));
 let clients: any = {};
 let sortedClients = {};
 let expirationDateSystem: Date = new Date();
-
+let seconds = 2;
 let responseClients: string[] = [];
 function sort(io) {
   const sortLength =
@@ -44,11 +44,12 @@ function sort(io) {
     sortedKey = <string>Object.keys(clients)[sortNumber];
     sortedClients = {};
     responseClients = [];
+    seconds--;
   }
 
   const sortedClient = clients[sortedKey];
   const expirationDate = new Date();
-  expirationDate.setSeconds(expirationDate.getSeconds() + 2);
+  expirationDate.setSeconds(expirationDate.getSeconds() + seconds);
   expirationDate.setMilliseconds(0);
 
   sortedClients[sortedKey] = { ...sortedClient, expirationDate };

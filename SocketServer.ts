@@ -7,9 +7,10 @@ app.listen(3000, () => console.log('server running'));
 
 let clients = {};
 let clientsSuccess: string[] = [];
+
 function sort(io, username: string = '') {
   Object.keys(clients)
-    .filter(key => key != username)
+    // .filter(key => key != username)
     .map(key =>
       io.sockets.connected[clients[key].socket].emit(key, 'run!' + key),
     );

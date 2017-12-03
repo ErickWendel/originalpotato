@@ -22,8 +22,8 @@
             socket.emit("add-user", {
                 "username": myId,
             });
+
             socket.on('count-users', function (data) {
-                // debugger
                 if (!data) return;
                 document.getElementById("countUsers").innerHTML = data
             })

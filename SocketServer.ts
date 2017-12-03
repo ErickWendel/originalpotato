@@ -10,7 +10,7 @@ app.use(Express.static(Path.join(__dirname, '/')));
 const io = SocketIo(server, {
   httpCompression: true,
 
-  serveClient: false,
+  serveClient: true,
   // below are engine.IO options
   pingInterval: 10000,
   pingTimeout: 5000,

@@ -42,7 +42,7 @@ function sort(io) {
 
   const sortedClient = clients[sortedKey];
   const expirationDate = new Date();
-  expirationDate.setSeconds(expirationDate.getSeconds() + 2);
+  expirationDate.setSeconds(expirationDate.getSeconds() + 5);
   expirationDate.setMilliseconds(0);
 
   sortedClients[sortedKey] = { ...sortedClient, expirationDate };
@@ -91,7 +91,7 @@ io.sockets.on('connection', socket => {
 
   socket.on('press', data => {
     const username = data.username;
-    console.log('Sending:', data.username);
+    console.log('ONPRESS:', data.username);
     const expirationDate = <Date>new Date(data.sendDate);
     console.log('date', expirationDate);
     expirationDate.setMilliseconds(0);

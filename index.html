@@ -6,10 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/dash.css">
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+
     <script>
 
         var socket = {};
@@ -80,27 +82,29 @@
 </head>
 
 <body>
-    <div class="header">
-        <output id="myId" class="logado">
+    <div class="container">
+        <div class="header">
+            <output id="myId" class="logado">
+            </output>
+            <output id="countUsers" class="qdt">
+            </output>
+            <output id="sortedUser" class="current">
+            </output>
+        </div>
+
+
+
+        <output id="expirationDate">
         </output>
-        <output id="countUsers" class="qdt">
-        </output>
-        <output id="sortedUser" class="current">
-        </output>
+        <button id="pressBtn" class="none" onclick="press()">Passar batata</button>
+        <button id="connect" onclick="connect()">Conectar</button>
+        <button onclick="sort()">Sortear</button>
+        <br>
+        <br>
+        <br>
+        <ul id="items" class="list-default">
+        </ul>
     </div>
-
-
-
-    <output id="expirationDate">
-    </output>
-    <button id="pressBtn" class="none" onclick="press()">Passar batata</button>
-    <button id="connect" onclick="connect()">Conectar</button>
-    <button onclick="sort()">Sortear</button>
-    <br>
-    <br>
-    <br>
-    <ul id="items" class="list-group">
-    </ul>
 
 </body>
 

@@ -48,7 +48,9 @@ function sort(io) {
   sortedClients[sortedKey] = { ...sortedClient, expirationDate };
   clients[sortedKey] = sortedClients[sortedKey];
   const socketClient = io.sockets.connected[sortedClient.socket];
+
   socketClient.emit(sortedKey, 'sorted!' + new Date().toISOString());
+  io.emit('sorted-user', sortedKey);
   // runAgain(sortedKey, socketClient);
 }
 

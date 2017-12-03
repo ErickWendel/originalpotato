@@ -41,6 +41,10 @@
                 if (!data) return;
                 document.getElementById("countUsers").innerHTML = '<br> Count Of Active Users: ' + data.count
             })
+            socket.on('sorted-user', function (data) {
+                if (!data) return;
+                document.getElementById("sortedUser").innerHTML = '<br> Sorted User: ' + data
+            })
 
             socket.on(myId, function (data) {
                 var node = document.createElement("li");
@@ -60,7 +64,10 @@
     </output>
     <output id="countUsers">
     </output>
+    <output id="sortedUser">
+    </output>
     <br>
+
     <output id="expirationDate">
     </output>
     <button id="pressBtn" class="none" onclick="press()">PRESS!</button>

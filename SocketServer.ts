@@ -127,7 +127,7 @@ io.sockets.on('connection', socket => {
 
     const sortedUser = clients[username];
     const socketClient = io.sockets.connected[sortedUser.socket];
-    const sortNumber = Math.floor(Math.random() * 15);
+    const sortNumber = Math.floor(Math.random() * 10);
     if (count >= sortNumber) {
       socketClient.emit(username, 'HASFAIL');
       count = 0;

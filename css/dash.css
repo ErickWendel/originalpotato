@@ -87,6 +87,16 @@ button {
   display: inline-block;
 }
 
+@media all and (max-width: 768px) {
+  .block-author {
+    width: 100%;
+  }
+  .wrapper {
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
 .person-img {
   width: 200px;
   height: 200px;

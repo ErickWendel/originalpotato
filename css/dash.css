@@ -74,9 +74,10 @@ button {
   border: none;
   width: 32%;
   padding: 15px;
-  background: #96281b;
+  background: green;
   color: white;
   font-weight: bold;
+  font-size: 100%;
   margin: 0;
   margin-bottom: 20px;
 }

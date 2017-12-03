@@ -7,7 +7,7 @@ window.onload = function() {
   let skin = document.querySelector('.skin');
   let gemidaoativo = false;
   let botaoAtivo = false;
-
+  let timeout = 0;
   obj.addEventListener('click', function() {
     press();
   });
@@ -26,16 +26,18 @@ window.onload = function() {
       sendDate: new Date(),
     });
     botaoAtivo = false;
+    clearTimeout(timeout);
     obj.classList.add('v-none');
   }
 
   function register() {
     socket.on(myId, function(data) {
       botaoAtivo = true;
-      setTimeout(() => {
+      timeout = setTimeout(() => {
         if (!botaoAtivo) return;
         press();
-      }, 3000);
+        console.log('clicando manualmente');
+      }, 4000);
 
       if (data === 'HASFAIL' || data === 'ENDGAME') {
         if (gemidaoativo) return;

@@ -66,7 +66,11 @@ function runAgain(sortedKey, mySocketClient) {
   });
 }
 function emitCountUsers(io, activeClients) {
-  io.emit('count-users', Object.keys(activeClients).length);
+  const keys = Object.keys(activeClients);
+  io.emit('count-users', {
+    count: keys.length,
+    users: keys,
+  });
 }
 
 io.sockets.on('connection', socket => {
@@ -81,7 +85,7 @@ io.sockets.on('connection', socket => {
   socket.on('sort', () => {
     expirationDateSystem = new Date();
     expirationDateSystem.setMinutes(expirationDateSystem.getMinutes() + 3);
-
+    socket.emit('expiration-date', expirationDateSystem);
     sort(io);
   });
 

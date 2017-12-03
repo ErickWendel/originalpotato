@@ -6,18 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-
+    <style>
+        .none {
+            display: none !important;
+        }
+    </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
     <script>
 
-        var myId = 'erickwendel' + new Date().getTime();
         var socket = {};
+        var myId = 'erickwendel' + new Date().getTime();
+
         window.press = function run() {
             socket.emit("press", {
                 "username": myId,
+                "sendDate": new Date()
             });
         }
+        window.sort = function sort() {
+            socket.emit("sort");
+        }
         window.onload = function () {
+            document.getElementById("myId").innerHTML = myId
             socket = io.connect('http://localhost:3000');
             socket.emit("add-user", {
                 "username": myId,
@@ -25,7 +35,7 @@
 
             socket.on('count-users', function (data) {
                 if (!data) return;
-                document.getElementById("countUsers").innerHTML = data
+                document.getElementById("countUsers").innerHTML = '<br> Count Of Active Users: ' + data
             })
 
             socket.on(myId, function (data) {
@@ -33,6 +43,7 @@
                 var textnode = document.createTextNode(data);
                 node.appendChild(textnode);
                 document.getElementById("items").appendChild(node);
+                document.getElementById("pressBtn").classList.remove('none')
 
             })
 
@@ -41,15 +52,18 @@
 </head>
 
 <body>
+    <output id="myId">
+    </output>
     <output id="countUsers">
     </output>
-
+    <button id="pressBtn" class="none" onclick="press()">PRESS!</button>
+    <button onclick="sort()">SORT!</button>
     <br>
     <br>
     <br>
     <div id="items">
     </div>
-    <button onclick="press()">PRESS!</button>
+
 </body>
 
 </html>

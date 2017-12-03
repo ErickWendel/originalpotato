@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script>
+
+        var myId = 'erickwendel' + new Date().getTime();
+        var socket = {};
+        window.press = function run() {
+            socket.emit("press", {
+                "username": myId,
+            });
+        }
+        window.onload = function () {
+            socket = io.connect('http://localhost:3000');
+            socket.emit("add-user", {
+                "username": myId,
+            });
+            socket.on('count-users', function (data) {
+                // debugger
+                if (!data) return;
+                document.getElementById("countUsers").innerHTML = data
+            })
+
+            socket.on(myId, function (data) {
+                var node = document.createElement("li");
+                var textnode = document.createTextNode(data);
+                node.appendChild(textnode);
+                document.getElementById("items").appendChild(node);
+
+            })
+
+        }
+    </script>
+</head>
+
+<body>
+    <output id="countUsers">
+    </output>
+
+    <br>
+    <br>
+    <br>
+    <div id="items">
+    </div>
+    <button onclick="press()">PRESS!</button>
+</body>
+
+</html>

@@ -131,6 +131,7 @@ io.sockets.on('connection', socket => {
     if (count >= sortNumber) {
       socketClient.emit(username, 'HASFAIL');
       count = 0;
+      sort(io);
       return;
     }
     if (expirationDateSystem < new Date()) {

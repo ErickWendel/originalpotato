@@ -4,11 +4,11 @@
   "description": "",
   "main": "bootstrap.ts",
   "scripts": {
-    "preinstall": "npm i -g typescript http-server",
-    "client": "http-server .",
+    "preinstall": "npm i -g pm2 typescript http-server && tsc",
     "server": "nodemon lib/SocketServer.js",
     "build": "tsc",
-    "start": "nodemon lib/bootstrap.js"
+    "start": "nodemon SocketServer.js",
+    "prod": "pm2-docker SocketServer.js"
   },
   "author": "Horizon Four",
   "license": "ISC",
@@ -16,17 +16,10 @@
     "@types/dotenv": "4.0.1",
     "@types/node": "8.0.51",
     "@types/socket.io": "^1.4.31",
-    "@types/socket.io-client": "^1.4.32",
-    "@types/websocket": "0.0.35",
-    "@types/ws": "^3.2.1",
-    "dotenv": "4.0.0",
     "express": "^4.16.2",
     "socket.io": "^2.0.4",
-    "socket.io-client": "^2.0.4",
     "tslint-config-airbnb": "5.3.0",
-    "typescript": "2.5.3",
-    "websocket": "^1.0.25",
-    "ws": "^3.3.2"
+    "typescript": "2.5.3"
   },
   "devDependencies": {
     "nodemon": "1.12.1"

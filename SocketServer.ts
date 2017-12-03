@@ -8,6 +8,8 @@ const app = Express();
 const server = http.createServer(app);
 app.use(Express.static(Path.join(__dirname, '/')));
 const io = SocketIo(server, {
+  httpCompression: true,
+
   serveClient: false,
   // below are engine.IO options
   pingInterval: 10000,

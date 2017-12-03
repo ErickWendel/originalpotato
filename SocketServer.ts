@@ -1,6 +1,7 @@
 import * as http from 'http';
 import * as Fs from 'fs';
 import * as SocketIo from 'socket.io';
+import { setInterval } from 'timers';
 const app = http.createServer();
 const io = SocketIo.listen(app);
 app.listen(3000, () => console.log('server running'));
@@ -16,6 +17,8 @@ app.listen(3000, () => console.log('server running'));
 */
 let clients: any = {};
 let sortedClients = {};
+let expirationDateSystem: Date = new Date();
+
 let responseClients: string[] = [];
 function sort(io) {
   const sortLength =
@@ -64,6 +67,7 @@ function sort(io) {
 function emitCountUsers(io, activeClients) {
   io.emit('count-users', Object.keys(activeClients).length);
 }
+
 io.sockets.on('connection', socket => {
   socket.on('add-user', data => {
     console.log('new user!', data.username);
@@ -73,7 +77,12 @@ io.sockets.on('connection', socket => {
     emitCountUsers(io, clients);
   });
 
-  socket.on('sort', () => sort(io));
+  socket.on('sort', () => {
+    expirationDateSystem = new Date();
+    expirationDateSystem.setMinutes(expirationDateSystem.getMinutes() + 1);
+
+    sort(io);
+  });
 
   socket.on('press', data => {
     const username = data.username;
@@ -84,6 +93,9 @@ io.sockets.on('connection', socket => {
 
     const sortedUser = clients[username];
     const socketClient = io.sockets.connected[sortedUser.socket];
+    if (expirationDateSystem < new Date()) {
+      socketClient.emit(username, 'ENDGAME');
+    }
     responseClients.push(username);
     if (sortedUser.expirationDate < expirationDate) {
       //HASFAIL

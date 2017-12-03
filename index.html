@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="css/dash.css">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
     <script>
 
@@ -50,7 +52,12 @@
 
             socket.on('count-users', function (data) {
                 if (!data) return;
+
                 document.getElementById("countUsers").innerHTML = '<br> Usuário ativos: ' + data.count
+                $('#items li').remove()
+                data.users.map(item => {
+                    $('#items').append('<li class="list-group-item">' + item + '</li>');
+                })
             })
             socket.on('sorted-user', function (data) {
                 if (!data) return;
@@ -92,9 +99,7 @@
     <br>
     <br>
     <br>
-    <ul id="items" class="list-default">
-        <li>Cesar</li>
-        <li>João</li>
+    <ul id="items" class="list-group">
     </ul>
 
 </body>

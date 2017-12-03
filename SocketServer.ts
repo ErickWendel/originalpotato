@@ -95,6 +95,7 @@ io.sockets.on('connection', socket => {
     const socketClient = io.sockets.connected[sortedUser.socket];
     if (expirationDateSystem < new Date()) {
       socketClient.emit(username, 'ENDGAME');
+      return;
     }
     responseClients.push(username);
     if (sortedUser.expirationDate < expirationDate) {

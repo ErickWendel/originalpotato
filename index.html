@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="css/dash.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
     <script>
 
@@ -44,16 +45,16 @@
             else socket = io.connect('https://originalpotato.herokuapp.com/');
             socket.on('expiration-date', function (data) {
                 if (!data) return;
-                document.getElementById("expirationDate").innerHTML = '<br> Expires at: ' + new Date(data).toLocaleString()
+                document.getElementById("expirationDate").innerHTML = '<br> Expira em: ' + new Date(data).toLocaleString()
             })
 
             socket.on('count-users', function (data) {
                 if (!data) return;
-                document.getElementById("countUsers").innerHTML = '<br> Count Of Active Users: ' + data.count
+                document.getElementById("countUsers").innerHTML = '<br> Usuário ativos: ' + data.count
             })
             socket.on('sorted-user', function (data) {
                 if (!data) return;
-                document.getElementById("sortedUser").innerHTML = '<br> Sorted User: ' + data
+                document.getElementById("sortedUser").innerHTML = '<br> Usuário sorteado: ' + data
             })
 
             socket.on(myId, function (data) {
@@ -72,24 +73,29 @@
 </head>
 
 <body>
-    <output id="myId">
-    </output>
-    <output id="countUsers">
-    </output>
-    <output id="sortedUser">
-    </output>
-    <br>
+    <div class="header">
+        <output id="myId" class="logado">
+        </output>
+        <output id="countUsers" class="qdt">
+        </output>
+        <output id="sortedUser" class="current">
+        </output>
+    </div>
+
+
 
     <output id="expirationDate">
     </output>
-    <button id="pressBtn" class="none" onclick="press()">PRESS!</button>
-    <button id="connect" onclick="connect()">CONNECT!</button>
-    <button onclick="sort()">SORT!</button>
+    <button id="pressBtn" class="none" onclick="press()">Passar batata</button>
+    <button id="connect" onclick="connect()">Conectar</button>
+    <button onclick="sort()">Sortear</button>
     <br>
     <br>
     <br>
-    <div id="items">
-    </div>
+    <ul id="items" class="list-default">
+        <li>Cesar</li>
+        <li>João</li>
+    </ul>
 
 </body>
 

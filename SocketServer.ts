@@ -79,7 +79,7 @@ io.sockets.on('connection', socket => {
 
   socket.on('sort', () => {
     expirationDateSystem = new Date();
-    expirationDateSystem.setMinutes(expirationDateSystem.getMinutes() + 1);
+    expirationDateSystem.setMinutes(expirationDateSystem.getMinutes() + 3);
 
     sort(io);
   });

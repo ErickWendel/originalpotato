@@ -62,7 +62,7 @@ window.onload = function() {
 
   changeBg();
   var url = 'http://localhost:3000/';
-  if (location.href === url) socket = io.connect(url);
+  if (location.href.indexOf(url) !== -1) socket = io.connect(url);
   else socket = io.connect('https://originalpotato.herokuapp.com/');
 
   socket.on('expiration-date', function(data) {

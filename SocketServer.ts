@@ -49,20 +49,21 @@ function sort(io) {
   clients[sortedKey] = sortedClients[sortedKey];
   const socketClient = io.sockets.connected[sortedClient.socket];
   socketClient.emit(sortedKey, 'sorted!' + new Date().toISOString());
-  runAgain(sortedKey);
-  function runAgain(sortedKey) {
-    new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(1);
-      }, 3000);
-    }).then(_ => {
-      console.log(`comparando se o ${sortedKey} já respondeu, para resortear`);
-      if (responseClients.indexOf(sortedKey) !== -1) return;
-      socketClient.emit(sortedKey, 'HASFAIL');
-      responseClients = [];
-      sortedClients = {};
-    });
-  }
+  runAgain(sortedKey, socketClient);
+}
+
+function runAgain(sortedKey, mySocketClient) {
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(1);
+    }, 3000);
+  }).then(_ => {
+    console.log(`comparando se o ${sortedKey} já respondeu, para resortear`);
+    if (responseClients.indexOf(sortedKey) !== -1) return;
+    mySocketClient.emit(sortedKey, 'HASFAIL');
+    responseClients = [];
+    sortedClients = {};
+  });
 }
 function emitCountUsers(io, activeClients) {
   io.emit('count-users', Object.keys(activeClients).length);
@@ -97,6 +98,7 @@ io.sockets.on('connection', socket => {
       socketClient.emit(username, 'ENDGAME');
       return;
     }
+
     responseClients.push(username);
     if (sortedUser.expirationDate < expirationDate) {
       //HASFAIL

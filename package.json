@@ -4,8 +4,7 @@
   "description": "",
   "main": "bootstrap.ts",
   "scripts": {
-    "preinstall": "npm i -g pm2 typescript http-server",
-    "client": "http-server .",
+    "preinstall": "npm i -g pm2 typescript http-server && tsc",
     "server": "nodemon lib/SocketServer.js",
     "build": "tsc",
     "start": "nodemon SocketServer.js",

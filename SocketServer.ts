@@ -147,6 +147,7 @@ io.sockets.on('connection', socket => {
       console.log('HASFAIL', sortedUser);
       io.emit('user-loser', username);
       socketClient.emit(username, 'HASFAIL');
+      sort(io);
       return;
     }
     sort(io);

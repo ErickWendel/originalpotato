@@ -15,10 +15,8 @@ app.listen(3000, () => console.log('server running'));
     - emit
 */
 let clients: any = {};
-let clientsSuccess: string[] = [];
 let sortedClients = {};
-let count = 0;
-let strings: string[] = [];
+let responseClients: string[] = [];
 function sort(io) {
   const sortLength =
     Object.keys(clients).length - Object.keys(sortedClients).length;
@@ -36,19 +34,32 @@ function sort(io) {
     const sortNumber = Math.floor(Math.random() * Object.keys(clients).length);
     sortedKey = <string>Object.keys(clients)[sortNumber];
     sortedClients = {};
+    responseClients = [];
   }
 
   const sortedClient = clients[sortedKey];
   const expirationDate = new Date();
-  expirationDate.setSeconds(expirationDate.getSeconds() + 3);
+  expirationDate.setSeconds(expirationDate.getSeconds() + 2);
   expirationDate.setMilliseconds(0);
 
   sortedClients[sortedKey] = { ...sortedClient, expirationDate };
   clients[sortedKey] = sortedClients[sortedKey];
-  io.sockets.connected[sortedClient.socket].emit(
-    sortedKey,
-    'sorted!' + new Date().toISOString(),
-  );
+  const socketClient = io.sockets.connected[sortedClient.socket];
+  socketClient.emit(sortedKey, 'sorted!' + new Date().toISOString());
+  runAgain(sortedKey);
+  function runAgain(sortedKey) {
+    new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(1);
+      }, 3000);
+    }).then(_ => {
+      console.log(`comparando se o ${sortedKey} já respondeu, para resortear`);
+      if (responseClients.indexOf(sortedKey) !== -1) return;
+      socketClient.emit(sortedKey, 'HASFAIL');
+      responseClients = [];
+      sortedClients = {};
+    });
+  }
 }
 function emitCountUsers(io, activeClients) {
   io.emit('count-users', Object.keys(activeClients).length);
@@ -72,13 +83,14 @@ io.sockets.on('connection', socket => {
     expirationDate.setMilliseconds(0);
 
     const sortedUser = clients[username];
+    const socketClient = io.sockets.connected[sortedUser.socket];
+    responseClients.push(username);
     if (sortedUser.expirationDate < expirationDate) {
       //HASFAIL
       console.log('HASFAIL', sortedUser);
-      socket.emit(username, 'HASFAIL');
+      socketClient.emit(username, 'HASFAIL');
       return;
     }
-
     sort(io);
   });
 

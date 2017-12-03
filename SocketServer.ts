@@ -49,7 +49,7 @@ function sort(io) {
   clients[sortedKey] = sortedClients[sortedKey];
   const socketClient = io.sockets.connected[sortedClient.socket];
   socketClient.emit(sortedKey, 'sorted!' + new Date().toISOString());
-  runAgain(sortedKey, socketClient);
+  // runAgain(sortedKey, socketClient);
 }
 
 function runAgain(sortedKey, mySocketClient) {

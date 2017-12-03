@@ -42,7 +42,6 @@
             socket.emit("sort");
         }
         window.onload = function () {
-            document.getElementById("myId").innerHTML = myId
 
             var url = 'http://localhost:3000/';
             if (location.href.indexOf(url) !== -1) socket = io.connect(url);
@@ -55,10 +54,10 @@
             socket.on('count-users', function (data) {
                 if (!data) return;
 
-                document.getElementById("countUsers").innerHTML = '<br> Usuário ativos: ' + data.count
+                document.getElementById("countUsers").innerHTML = '<br> Existem ' + data.count + ' pessoas conectadas'
                 $('#items li').remove()
                 data.users.map(item => {
-                    $('#items').append('<li class="list-group-item">' + item + '</li>');
+                    $('#items').append('<li class="list-group-item"><span class="thumb"></span><b>' + item + '</b></li>');
                 })
             })
             socket.on('sorted-user', function (data) {
@@ -83,27 +82,62 @@
 
 <body>
     <div class="container">
+        <div class="col-sm-12 navbar">
+            <h1>Original Potato</h1>
+            <img src="./img/icon.jpg" alt="" class="logo">
+        </div>
+        <div class="col-sm-6 block-author">
+            <h2>Erick Wendel</h2>
+            <img class="person-img img-responsive" src="http://usbhacker.herokuapp.com/erick.jpg" alt="">
+            <ul class="list-default">
+                <li>
+                    erickwendel.com.br
+                </li>
+                <li>
+                    github.com/erickwendel
+                </li>
+                <li>
+                    fb.com/page.erickwendel
+                </li>
+
+            </ul>
+        </div>
+        <div class="col-sm-6 block-author">
+            <h2>Cesar Oliveira</h2>
+            <img class="person-img img-responsive" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAIAAgDGAAAAAQAAAAAAAA3LAAAAJGIyYmFlNTg2LWZjYmQtNGViZS04YTE1LTE5Yjk4YWIwYjdkZA.jpg"
+                alt="">
+            <ul class="list-default">
+                <li>
+                    erickwendel.com.br
+                </li>
+                <li>
+                    github.com/erickwendel
+                </li>
+                <li>
+                    fb.com/page.erickwendel
+                </li>
+
+            </ul>
+        </div>
         <div class="header">
             <output id="myId" class="logado">
-            </output>
+                Bem vindo </output>
             <output id="countUsers" class="qdt">
             </output>
             <output id="sortedUser" class="current">
             </output>
         </div>
-
-
-
-        <output id="expirationDate">
-        </output>
-        <button id="pressBtn" class="none" onclick="press()">Passar batata</button>
         <button id="connect" onclick="connect()">Conectar</button>
         <button onclick="sort()">Sortear</button>
+        <button id="pressBtn" class="none" onclick="press()">Passar batata</button>
         <br>
         <br>
         <br>
-        <ul id="items" class="list-default">
-        </ul>
+        <div class="col-sm-6 col-sm-offset-3">
+            <ul id="items" class="list-default">
+            </ul>
+        </div>
+
     </div>
 
 </body>

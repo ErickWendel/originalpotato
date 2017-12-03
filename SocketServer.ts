@@ -99,7 +99,14 @@ io.sockets.on('connection', socket => {
     socket.emit('expiration-date', expirationDateSystem);
     sort(io);
   });
+  socket.on('userloser', data => {
+    const username = data.username;    
+    const sortedUser = clients[username];
+    const socketClient = io.sockets.connected[sortedUser.socket];
+    io.emit('user-loser', username);
+    socketClient.emit(username, 'HASFAIL');
 
+  })
   socket.on('press', data => {
     const username = data.username;
     console.log('ONPRESS:', data.username);

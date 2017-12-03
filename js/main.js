@@ -6,6 +6,7 @@ window.onload = function() {
 
   let skin = document.querySelector('.skin');
   let gemidaoativo = false;
+  let botaoAtivo = false;
 
   let btnplay = document.querySelector('.btn-play');
 
@@ -43,14 +44,22 @@ window.onload = function() {
       username: myId,
       sendDate: new Date(),
     });
+    botaoAtivo = false;
     obj.classList.add('v-none');
   }
 
   function register() {
     socket.on(myId, function(data) {
+      botaoAtivo = true;
+      setTimeout(() => {
+        if (!botaoAtivo) return;
+        press();
+      }, 3000);
+
       if (data === 'HASFAIL' || data === 'ENDGAME') {
         if (gemidaoativo) return;
         gemidaoativo = true;
+        botaoAtivo = false;
         playAudio();
 
         return;

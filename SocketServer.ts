@@ -68,11 +68,12 @@ function sort(io) {
 }
 
 function runAgain(sortedKey, mySocketClient) {
-  new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(1);
+  return new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => {
+      clearTimeout(timeout);
+      return resolve(timeout);
     }, 3000);
-  }).then(_ => {
+  }).then(result => {
     console.log(`comparando se o ${sortedKey} já respondeu, para resortear`);
     if (responseClients.indexOf(sortedKey) !== -1) return;
     mySocketClient.emit(sortedKey, 'HASFAIL');

@@ -32,13 +32,6 @@ window.onload = function() {
     clearTimeout(timeout);
     obj.classList.add('v-none');
   }
-  function fail() {
-    // debugger;
-    socket.emit('userLoser');
-    botaoAtivo = false;
-    clearTimeout(timeout);
-    obj.classList.add('v-none');
-  }
 
   function register() {
     socket.on(myId, function(data) {

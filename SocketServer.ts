@@ -8,6 +8,8 @@ const app = Express();
 const server = http.createServer(app);
 app.use(Express.static(Path.join(__dirname, '/')));
 const io = SocketIo(server, {
+  httpCompression: true,
+
   serveClient: false,
   // below are engine.IO options
   pingInterval: 10000,
@@ -32,6 +34,8 @@ let sortedClients = {};
 let expirationDateSystem: Date = new Date();
 let seconds = 2;
 let responseClients: string[] = [];
+let count = 0;
+
 function sort(io) {
   const sortLength =
     Object.keys(clients).length - Object.keys(sortedClients).length;
@@ -106,14 +110,15 @@ io.sockets.on('connection', socket => {
     socket.emit('expiration-date', expirationDateSystem);
     sort(io);
   });
-  socket.on('userloser', data => {
-    const username = data.username;
-    const sortedUser = clients[username];
-    const socketClient = io.sockets.connected[sortedUser.socket];
-    io.emit('user-loser', username);
-    socketClient.emit(username, 'HASFAIL');
-  });
+  // socket.on('userloser', data => {
+  //   const username = data.username;
+  //   const sortedUser = clients[username];
+  //   const socketClient = io.sockets.connected[sortedUser.socket];
+  //   io.emit('user-loser', username);
+  //   socketClient.emit(username, 'HASFAIL');
+  // });
   socket.on('press', data => {
+    count++;
     const username = data.username;
     console.log('ONPRESS:', data.username);
     const expirationDate = <Date>new Date(data.sendDate);
@@ -122,8 +127,12 @@ io.sockets.on('connection', socket => {
 
     const sortedUser = clients[username];
     const socketClient = io.sockets.connected[sortedUser.socket];
+    if (count >= 10) {
+      socketClient.emit(username, 'HASFAIL');
+      return;
+    }
     if (expirationDateSystem < new Date()) {
-      socketClient.emit(username, 'ENDGAME');
+      socketClient.emit(username, 'HASFAIL');
       // io.emit('user-loser', username);
       console.log('ENDGAME', username);
       return;

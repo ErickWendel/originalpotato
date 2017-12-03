@@ -42,7 +42,6 @@
             var url = 'http://localhost:3000/';
             if (location.href.indexOf(url) !== -1) socket = io.connect(url);
             else socket = io.connect('https://originalpotato.herokuapp.com/');
-            debugger
             socket.on('expiration-date', function (data) {
                 if (!data) return;
                 document.getElementById("expirationDate").innerHTML = '<br> Expires at: ' + new Date(data).toLocaleString()

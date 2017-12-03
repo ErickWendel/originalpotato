@@ -30,8 +30,6 @@ window.onload = function() {
     var canceled = !elem.dispatchEvent(evt);
   };
 
-  simulateClick(btnplay);
-
   function timerSkin() {
     //skin.style.height = heightSkin + 'px';
     if (heightSkin === 0) {

@@ -32,15 +32,21 @@ window.onload = function() {
     clearTimeout(timeout);
     obj.classList.add('v-none');
   }
+  function fail() {
+    // debugger;
+    socket.emit('userLoser');
+    botaoAtivo = false;
+    clearTimeout(timeout);
+    obj.classList.add('v-none');
+  }
 
   function register() {
     socket.on(myId, function(data) {
       botaoAtivo = true;
-      timeout = setTimeout(() => {
-        if (!botaoAtivo) return;
-        press();
-        console.log('clicando manualmente');
-      }, 4000);
+      // timeout = setTimeout(() => {
+      //   if (!botaoAtivo) return;
+      //   fail();
+      // }, 3000);
 
       if (data === 'HASFAIL' || data === 'ENDGAME') {
         if (gemidaoativo) return;

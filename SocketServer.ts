@@ -57,7 +57,7 @@ function sort(io) {
 
   socketClient.emit(sortedKey, 'sorted!' + new Date().toISOString());
   io.emit('sorted-user', sortedKey);
-  runAgain(sortedKey, socketClient);
+  // runAgain(sortedKey, socketClient);
 }
 
 function runAgain(sortedKey, mySocketClient) {

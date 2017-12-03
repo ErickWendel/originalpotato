@@ -104,7 +104,7 @@ function playAudio() {
   // var audio = new Audio('../audio/gemidao.mp3');
   // audio.play();
   createjs.Sound.registerSound(
-    'https://github.com/originalpotato/originalpotato-server/blob/master/audio/gemidao.mp3',
+    'https://originalpotato.herokuapp.com/audio/gemidao2.mp3',
     'x',
   );
   audioContext = createjs.Sound.play('x');

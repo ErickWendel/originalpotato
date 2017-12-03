@@ -16,22 +16,36 @@
 
         var socket = {};
         var myId = 'erickwendel' + new Date().getTime();
+        function showPressButton(show) {
+            var element = document.getElementById("pressBtn")
+            if (show) {
+                element.classList.remove('none')
+                return;
+            }
+            element.classList.add('none')
 
+        }
+        window.connect = function connect() {
+            socket.emit("add-user", {
+                "username": myId,
+            });
+        }
         window.press = function run() {
             socket.emit("press", {
                 "username": myId,
                 "sendDate": new Date()
             });
+            showPressButton(false)
+
         }
         window.sort = function sort() {
             socket.emit("sort");
         }
         window.onload = function () {
             document.getElementById("myId").innerHTML = myId
-            socket = io.connect('https://originalpotato.herokuapp.com/');
-            // socket.emit("add-user", {
-            //     "username": myId,
-            // });
+            socket = io.connect('http://localhost:3000');
+            // socket = io.connect('https://originalpotato.herokuapp.com/');
+
             socket.on('expiration-date', function (data) {
                 if (!data) return;
                 document.getElementById("expirationDate").innerHTML = '<br> Expires at: ' + new Date(data).toLocaleString()
@@ -71,6 +85,7 @@
     <output id="expirationDate">
     </output>
     <button id="pressBtn" class="none" onclick="press()">PRESS!</button>
+    <button id="connect" onclick="connect()">CONNECT!</button>
     <button onclick="sort()">SORT!</button>
     <br>
     <br>

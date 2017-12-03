@@ -29,9 +29,9 @@
         window.onload = function () {
             document.getElementById("myId").innerHTML = myId
             socket = io.connect('http://localhost:3000');
-            socket.emit("add-user", {
-                "username": myId,
-            });
+            // socket.emit("add-user", {
+            //     "username": myId,
+            // });
             socket.on('expiration-date', function (data) {
                 if (!data) return;
                 document.getElementById("expirationDate").innerHTML = '<br> Expires at: ' + new Date(data).toLocaleString()

@@ -1,0 +1,158 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.none{
+  display: none !important;
+}
+
+.v-none{
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+body {
+  background: url(../img/potato2.gif) center center no-repeat;
+  background-size: cover;
+  position: relative;
+  font-family: sans-serif;
+}
+
+h2 {
+  margin: 0 auto;
+  color: white;
+  font-weight: bold;
+  display: block;
+  text-align: center;
+  top: 50%;
+  position: relative;
+  transform
+}
+
+.objeto {
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  background-size: cover;
+  background-color: #FABE58;
+  border-radius: 50%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  margin: auto;
+  overflow: hidden;
+  box-shadow: 0px 0px 20px #3d3d3d;
+  animation: pulse .3s infinite alternate;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.objeto h2{
+  color: white;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin-top: -20px;
+  font-size: 2em;
+}
+
+.objeto .skin{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 100px;
+  background: #C0392B
+}
+
+.form{
+  position: absolute;
+  background: #C0392B;
+  width: 300px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+input{
+  padding: 10px;
+  font-size: 20px;
+  margin: 0;
+  width: 80%;
+  border: none;
+  background: #eee;
+
+}
+.btn{
+  width: 20%;
+  border: none;
+  padding: 10px;
+  font-size: 20px;
+  background: #F5AB35;
+  color: white;
+  font-weight: bold;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(.9)
+  }
+  100% {
+    transform: scale(1)
+  }
+}
+
+.caiu{
+  position: absolute;
+  overflow: hidden;
+  display: none;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: url(../img/gemendo.jpg) center center no-repeat;
+  background-size: cover;
+  z-index: 999999;
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both infinite;
+}
+
+.fail .caiu{
+  display: block !important;
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-10px, 0, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(20px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-40px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(40px, 0, 0);
+  }
+}

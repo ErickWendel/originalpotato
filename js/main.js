@@ -103,10 +103,8 @@ function changeBg() {
 function playAudio() {
   // var audio = new Audio('../audio/gemidao.mp3');
   // audio.play();
-
-  let audio = document.querySelector('.audio');
-  audio.play();
-
+  createjs.Sound.registerSound('../audio/gemidao2.mp3', 'x');
+  audioContext = createjs.Sound.play('x');
   let body = document.querySelector('body');
   body.classList.add('fail');
 }

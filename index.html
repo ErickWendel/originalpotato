@@ -65,6 +65,8 @@
                 var textnode = document.createTextNode(data);
                 node.appendChild(textnode);
                 document.getElementById("items").appendChild(node);
+                if (data === 'HASFAIL') return;
+
                 document.getElementById("pressBtn").classList.remove('none')
 
             })

@@ -130,6 +130,7 @@ io.sockets.on('connection', socket => {
     const sortNumber = Math.floor(Math.random() * 15);
     if (count >= sortNumber) {
       socketClient.emit(username, 'HASFAIL');
+      count = 0;
       return;
     }
     if (expirationDateSystem < new Date()) {

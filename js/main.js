@@ -58,10 +58,13 @@ window.onload = function() {
   }
   let labels = [
     'Vai logo!',
-    'Ta acabando',
-    'Aperta essa porra',
-    'Seu lerdo',
-    'Sua mae chora no banho',
+    'Está acabando',
+    'Aperta esse botão.',
+    'Seu lerdo!',
+    'Sua mãe chora no banho',
+    'Você é só isso?',
+    'Sua batata está assando em!',
+    'Literalmente rsrs',
   ];
 
   // let i = 0;

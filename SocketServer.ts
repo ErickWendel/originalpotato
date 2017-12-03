@@ -1,7 +1,6 @@
 import * as http from 'http';
 import * as Fs from 'fs';
 import * as SocketIo from 'socket.io';
-import { setInterval } from 'timers';
 const app = http.createServer();
 const io = SocketIo.listen(app);
 app.listen(3000, () => console.log('server running'));
@@ -51,7 +50,7 @@ function sort(io) {
 
   socketClient.emit(sortedKey, 'sorted!' + new Date().toISOString());
   io.emit('sorted-user', sortedKey);
-  // runAgain(sortedKey, socketClient);
+  runAgain(sortedKey, socketClient);
 }
 
 function runAgain(sortedKey, mySocketClient) {
@@ -95,13 +94,14 @@ io.sockets.on('connection', socket => {
     const username = data.username;
     console.log('ONPRESS:', data.username);
     const expirationDate = <Date>new Date(data.sendDate);
-    console.log('date', expirationDate);
     expirationDate.setMilliseconds(0);
+    console.log('sendDate', expirationDate);
 
     const sortedUser = clients[username];
     const socketClient = io.sockets.connected[sortedUser.socket];
     if (expirationDateSystem < new Date()) {
       socketClient.emit(username, 'ENDGAME');
+      console.log('ENDGAME', username);
       return;
     }
 

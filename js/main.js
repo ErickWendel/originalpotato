@@ -7,9 +7,28 @@ window.onload = function() {
   let skin = document.querySelector('.skin');
   let gemidaoativo = false;
 
+  let btnplay = document.querySelector('.btn-play');
+
   obj.addEventListener('click', function() {
     press();
   });
+
+  btnplay.addEventListener('click', function() {
+    playAudio();
+  });
+
+  var simulateClick = function(elem) {
+    // Create our event (with options)
+    var evt = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+    });
+    // If cancelled, don't dispatch our event
+    var canceled = !elem.dispatchEvent(evt);
+  };
+
+  simulateClick(btnplay);
 
   function timerSkin() {
     //skin.style.height = heightSkin + 'px';

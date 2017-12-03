@@ -1,0 +1,56 @@
+.list-default {
+  padding: 0;
+  margin: 0;
+}
+
+.list-default li {
+  padding: 0;
+  border: 1px solid #96281b;
+  padding: 20px;
+  text-align: center;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  background: #fabe58;
+  color: #96281b;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+* {
+  font-family: sans-serif;
+}
+body {
+  background: #eee;
+}
+button {
+  border: none;
+  padding: 10px;
+  background: #96281b;
+  color: white;
+  font-weight: bold;
+  display: block;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+.header {
+  padding: 20px 0px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+output {
+  width: 100%;
+  display: inline-block;
+  clear: both;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.logado {
+  text-transform: uppercase;
+  font-size: 2em;
+  color: #fabe58;
+}

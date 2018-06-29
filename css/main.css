@@ -7,11 +7,15 @@ body {
   overflow: hidden;
 }
 
-.none{
+.label {
+  cursor: pointer
+}
+
+.none {
   display: none !important;
 }
 
-.v-none{
+.v-none {
   opacity: 0 !important;
   pointer-events: none !important;
 }
@@ -55,7 +59,7 @@ h2 {
   pointer-events: auto;
 }
 
-.objeto h2{
+.objeto h2 {
   color: white;
   position: absolute;
   top: 50%;
@@ -66,7 +70,7 @@ h2 {
   font-size: 2em;
 }
 
-.objeto .skin{
+.objeto .skin {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -76,7 +80,7 @@ h2 {
   background: #96281b;
 }
 
-.form{
+.form {
   position: absolute;
   background: #C0392B;
   width: 300px;
@@ -92,16 +96,16 @@ h2 {
   border-radius: 5px;
 }
 
-input{
+input {
   padding: 10px;
   font-size: 20px;
   margin: 0;
   width: 80%;
   border: none;
   background: #eee;
-
 }
-.btn{
+
+.btn {
   width: 20%;
   border: none;
   padding: 10px;
@@ -125,23 +129,19 @@ input{
     height: 400px;
   }
   100% {
-height: 0;
+    height: 0;
   }
 }
 
 @keyframes zigzag {
-  0% {
-   
-  }
-  50%{
+  0% {}
+  50% {
     transform: translateX(200px)
   }
-  100% {
-   
-  }
+  100% {}
 }
 
-.caiu{
+.caiu {
   position: absolute;
   overflow: hidden;
   display: none;
@@ -154,32 +154,34 @@ height: 0;
   background: url(../img/gemendo.jpg) center center no-repeat;
   background-size: cover;
   z-index: 999999;
-  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both infinite;
+  animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both infinite;
 }
 
-.fail .caiu{
+.fail .caiu {
   display: block !important;
 }
 
 @keyframes shake {
-  10%, 90% {
+  10%,
+  90% {
     transform: translate3d(-10px, 0, 0);
   }
-  
-  20%, 80% {
+  20%,
+  80% {
     transform: translate3d(20px, 0, 0);
   }
-
-  30%, 50%, 70% {
+  30%,
+  50%,
+  70% {
     transform: translate3d(-40px, 0, 0);
   }
-
-  40%, 60% {
+  40%,
+  60% {
     transform: translate3d(40px, 0, 0);
   }
 }
 
-.feedback{
+.feedback {
   position: absolute;
   top: 0;
   right: 0;
@@ -192,7 +194,6 @@ height: 0;
   text-align: center;
 }
 
-.feedback .btn{
-  
+.feedback .btn {
   width: 100%;
 }

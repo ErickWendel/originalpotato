@@ -13,9 +13,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
 
     <script>
-
         var socket = {};
         var myId = 'erickwendel' + new Date().getTime();
+
         function showPressButton(show) {
             var element = document.getElementById("pressBtn")
             if (show) {
@@ -46,18 +46,33 @@
             var url = 'http://localhost:3000/';
             if (location.href.indexOf(url) !== -1) socket = io.connect(url);
             else socket = io.connect('https://originalpotato.herokuapp.com/');
-            socket.on('expiration-date', function (data) {
-                if (!data) return;
-                document.getElementById("expirationDate").innerHTML = '<br> Expira em: ' + new Date(data).toLocaleString()
-            })
 
+            // socket.emit('connect')
+            // socket.on('expiration-date', function (data) {
+            //     if (!data) return;
+            //     console.log('PASSOU', data)
+            //     // document.getElementById("expirationDate").innerHTML = '<br> Expira em: ' + new Date(data).toLocaleString()
+            // })
+            socket.on('connect', () => {
+                console.log('connected')
+                socket.emit('update-users')
+            })
             socket.on('count-users', function (data) {
                 if (!data) return;
+                console.log('PASSOUUU')
+                const count = data.count;
+                if (count > 0)
+                    $('#iniciar')
+                    .removeClass('disabled')
+                    .removeAttr('disabled')
+                else
+                    $('#iniciar').addClass('disabled').attr('disabled', 'true')
 
-                document.getElementById("countUsers").innerHTML = '<br> Existem ' + data.count + ' pessoas conectadas'
+                $("#countUsers").html('<br> Existem ' + count + ' pessoas ativas na competição')
                 $('#items li').remove()
                 data.users.map(item => {
-                    $('#items').append('<li class="list-group-item"><span class="thumb"></span><b>' + item + '</b></li>');
+                    $('#items').append('<li class="list-group-item"><span class="thumb"></span><b>' +
+                        item + '</b></li>');
                 })
             })
             socket.on('sorted-user', function (data) {
@@ -83,7 +98,10 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112258841-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
         gtag('js', new Date());
 
         gtag('config', 'UA-112258841-1');
@@ -158,7 +176,7 @@
                 </output>
             </div>
             <!-- <button id="connect" onclick="connect()">Conectar</button> -->
-            <button class="btn-success" onclick="sort()">INICIAR</button>
+            <button class="btn-success disabled" id="iniciar" disabled onclick="sort()">INICIAR</button>
             <!-- <button id="pressBtn" class="none" onclick="press()">Passar batata</button> -->
             <br>
             <div class="col-sm-6 col-sm-offset-3">

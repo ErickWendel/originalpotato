@@ -29,10 +29,10 @@ server.listen(port, () => console.log('server running'));
     - HasLoser -> clearList
     - emit
 */
-let clients: any = {};
+const clients: any = {};
 let sortedClients = {};
-let expirationDateSystem: Date = new Date();
-let seconds = 2;
+// let expirationDateSystem: Date = new Date();
+const seconds = 2;
 let responseClients: string[] = [];
 let count = 0;
 
@@ -42,14 +42,14 @@ function sort(io) {
 
   const sortNumber = Math.floor(Math.random() * sortLength);
   const itens = Object.keys(sortedClients);
-  let sortedItem = Object.keys(clients).filter(activeClient => {
-    return itens.indexOf(activeClient) == -1;
+  const sortedItem = Object.keys(clients).filter((activeClient) => {
+    return itens.indexOf(activeClient) === -1;
   });
 
   let sortedKey: string =
-    sortedItem.length == 1 ? sortedItem[0] : sortedItem[sortNumber] || '';
+    sortedItem.length === 1 ? sortedItem[0] : sortedItem[sortNumber] || '';
   if (!sortedKey) {
-    //novo sort
+    // novo sort
     const sortNumber = Math.floor(Math.random() * Object.keys(clients).length);
     sortedKey = <string>Object.keys(clients)[sortNumber];
     sortedClients = {};
@@ -58,6 +58,8 @@ function sort(io) {
   }
 
   const sortedClient = clients[sortedKey];
+  if (!sortedClient) return;
+
   const expirationDate = new Date();
   expirationDate.setSeconds(expirationDate.getSeconds() + seconds);
   expirationDate.setMilliseconds(0);
@@ -66,8 +68,9 @@ function sort(io) {
   clients[sortedKey] = sortedClients[sortedKey];
   const socketClient = io.sockets.connected[sortedClient.socket];
 
-  socketClient.emit(sortedKey, 'sorted!' + new Date().toISOString());
+  socketClient.emit(sortedKey, expirationDate);
   io.emit('sorted-user', sortedKey);
+
   // runAgain(sortedKey, socketClient);
 }
 
@@ -76,8 +79,10 @@ function runAgain(sortedKey, mySocketClient) {
     const timeout = setTimeout(() => {
       clearTimeout(timeout);
       return resolve(timeout);
+      // tslint:disable-next-line:align
     }, 3000);
-  }).then(result => {
+
+  }).then((result) => {
     console.log(`comparando se o ${sortedKey} já respondeu, para resortear`);
     if (responseClients.indexOf(sortedKey) !== -1) return;
     mySocketClient.emit(sortedKey, 'HASFAIL');
@@ -95,9 +100,10 @@ function emitCountUsers(io, activeClients) {
   });
 }
 
-io.sockets.on('connection', socket => {
-  socket.on('add-user', data => {
+io.sockets.on('connection', (socket) => {
+  socket.on('add-user', (data) => {
     console.log('new user!', data.username);
+    io.sockets.sockets[socket.id]['username'] = data.username;
     clients[data.username] = {
       socket: socket.id,
     };
@@ -105,19 +111,24 @@ io.sockets.on('connection', socket => {
   });
 
   socket.on('sort', () => {
-    expirationDateSystem = new Date();
-    expirationDateSystem.setMinutes(expirationDateSystem.getMinutes() + 3);
-    socket.emit('expiration-date', expirationDateSystem);
     sort(io);
   });
-  // socket.on('userloser', data => {
-  //   const username = data.username;
-  //   const sortedUser = clients[username];
-  //   const socketClient = io.sockets.connected[sortedUser.socket];
-  //   io.emit('user-loser', username);
-  //   socketClient.emit(username, 'HASFAIL');
-  // });
-  socket.on('press', data => {
+
+  socket.on('update-users', () => {
+    const connectedUsernames = Object.keys(io.sockets.connected)
+      .map(key => io.sockets.connected[key]['username'])
+      .filter(item => !!item);
+
+    const connectedClients = {};
+    for (const item of connectedUsernames) {
+      connectedClients[item] = '';
+    }
+
+    emitCountUsers(io, connectedClients);
+  });
+
+  socket.on('press', (data) => {
+    // tslint:disable-next-line:no-increment-decrement
     count++;
     const username = data.username;
     console.log('ONPRESS:', data.username);
@@ -126,24 +137,23 @@ io.sockets.on('connection', socket => {
     console.log('sendDate', expirationDate);
 
     const sortedUser = clients[username];
+    if (!sortedUser) return;
+
     const socketClient = io.sockets.connected[sortedUser.socket];
-    const sortNumber = Math.floor(Math.random() * 10);
+    const countUsers = Object.keys(io.sockets.connected).length;
+
+    const sortNumber = Math.floor(Math.random() * countUsers);
+    console.log('sortNumber', sortNumber);
     if (count >= sortNumber) {
       socketClient.emit(username, 'HASFAIL');
       count = 0;
       sort(io);
       return;
     }
-    if (expirationDateSystem < new Date()) {
-      socketClient.emit(username, 'HASFAIL');
-      // io.emit('user-loser', username);
-      console.log('ENDGAME', username);
-      return;
-    }
 
     responseClients.push(username);
     if (sortedUser.expirationDate < expirationDate) {
-      //HASFAIL
+      // HASFAIL
       console.log('HASFAIL', sortedUser);
       io.emit('user-loser', username);
       socketClient.emit(username, 'HASFAIL');
@@ -152,9 +162,16 @@ io.sockets.on('connection', socket => {
     }
     sort(io);
   });
+  socket.on('disconnect:user', (data) => {
+    const { username } = data;
+    console.log('disconnecting', username);
+    delete clients[username];
 
-  socket.on('disconnect', data => {
-    for (var name in clients) {
+    emitCountUsers(io, clients);
+  });
+
+  socket.on('disconnect', (data) => {
+    for (const name in clients) {
       if (clients[name].socket === socket.id) {
         console.log('disconnected:', name);
         delete clients[name];

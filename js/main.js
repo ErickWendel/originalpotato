@@ -10,17 +10,17 @@ window.onload = function () {
 
   let timeout = 0;
   let btnplay = document.querySelector('.btn-play');
-
+  $('input[name=nome]').focus()
   obj.addEventListener('click', function () {
     press();
   });
 
-  function timerSkin() {
-    //skin.style.height = heightSkin + 'px';
-    if (heightSkin === 0) {
-      // playAudio();
-    }
-  }
+  // function timerSkin() {
+  //   //skin.style.height = heightSkin + 'px';
+  //   if (heightSkin === 0) {
+  //     // playAudio();
+  //   }
+  // }
 
   function press() {
     // debugger;
@@ -33,9 +33,21 @@ window.onload = function () {
     obj.classList.add('v-none');
   }
 
+  function verifyExpiration(experation) {
+    const interval = setInterval(() => {
+      const now = new Date();
+      const expires = new Date(experation);
+      if (now >= expires) {
+        press()
+        clearInterval(interval)
+      }
+    }, 500)
+  }
+
   function register() {
     socket.on(myId, function (data) {
       botaoAtivo = true;
+      console.log('SORTEADO', data)
       timeout = setTimeout(() => {
         if (!botaoAtivo) return;
         press();
@@ -46,14 +58,19 @@ window.onload = function () {
         gemidaoativo = true;
         botaoAtivo = false;
         playAudio();
+        // if (!data == 'ENDGAME') return
+        // socket.emit('disconnect:user', {
+        //   username: myId,
+        // })
 
         return;
       }
       obj.classList.remove('v-none');
-      // var node = document.createElement('li');
-      // var textnode = document.createTextNode(data);
-      // node.appendChild(textnode);
-      // document.getElementById('items').appendChild(node);
+    });
+
+    socket.on('expiration-date', function (data) {
+      if (!data) return;
+      verifyExpiration(data)
     });
   }
   let labels = [
@@ -81,10 +98,7 @@ window.onload = function () {
   if (location.href.indexOf(url) !== -1) socket = io.connect(url);
   else socket = io.connect('https://originalpotato.herokuapp.com/');
 
-  socket.on('expiration-date', function (data) {
-    if (!data) return;
-    console.log(data);
-  });
+
 
   let form = document.querySelector('.form');
   let btn = document.querySelector('.btn');

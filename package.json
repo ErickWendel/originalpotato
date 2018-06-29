@@ -2,14 +2,14 @@
   "name": "originalpotato",
   "version": "1.0.0",
   "description": "",
-  "main": "bootstrap.ts",
+  "main": "SocketServer.js",
   "scripts": {
     "preinstall": "npm i -g pm2 typescript && tsc",
     "build": "tsc",
     "start": "nodemon SocketServer.js",
     "prod": "pm2-docker SocketServer.js"
   },
-  "author": "Horizon Four",
+  "author": "erickwendel",
   "license": "ISC",
   "dependencies": {
     "@types/dotenv": "4.0.1",
